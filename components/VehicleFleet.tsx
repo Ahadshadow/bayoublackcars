@@ -62,6 +62,7 @@ const VehicleFleet = () => {
             category: "FULL SIZE SUV",
             image: "/replace img/2_FULL_SIZE_SUV__Chevrolet_Suburban-removebg-preview.png",
             price_per_hour: 110,
+            price: "$110 / Hour",
             available: true,
             passengers: 7,
             bags: 6
