@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import { getPageAssets } from '@/lib/imageLoader';
 
 interface Route {
+    from: string;
     destination: string;
     time: string;
     distance: string;
@@ -29,13 +30,13 @@ const initialCityData: Record<string, CityData> = {
         image: "/Top Cities Iconic Destinations Await/Chicago hero.png",
         description: "Experience the ultimate in Chicago luxury with Bayou Black Cars. Our expert chauffeurs provide elegant transit from the iconic skyline to the Magnificent Mile, ensuring every trip is refined and perfectly timed.",
         airports: [
-            "Chicago O'Hare International Airport",
-            "Midway Airport"
+            "Chicago O'Hare International Airport (ORD)",
+            "Chicago Midway International Airport (MDW)"
         ],
         routes: [
-            { destination: "Milwaukee", time: "45-55 min", distance: "30 mi" },
-            { destination: "ORD", time: "40-50 min", distance: "28 mi" },
-            { destination: "Starved Rock State Park", time: "40-50 min", distance: "28 mi" }
+            { from: "ORD", destination: "Downtown Chicago", time: "40-50 min", distance: "28 mi" },
+            { from: "ORD", destination: "The Loop", time: "35-45 min", distance: "25 mi" },
+            { from: "MDW", destination: "Downtown Chicago", time: "30-40 min", distance: "15 mi" }
         ]
     },
     "Houston": {
@@ -48,9 +49,9 @@ const initialCityData: Record<string, CityData> = {
             "William P. Hobby Airport (HOU)"
         ],
         routes: [
-            { destination: "Galveston", time: "60-75 min", distance: "50 mi" },
-            { destination: "The Woodlands", time: "35-45 min", distance: "30 mi" },
-            { destination: "Sugar Land", time: "30-40 min", distance: "22 mi" }
+            { from: "IAH", destination: "Downtown Houston", time: "35-45 min", distance: "25 mi" },
+            { from: "IAH", destination: "The Galleria", time: "30-40 min", distance: "23 mi" },
+            { from: "HOU", destination: "Downtown Houston", time: "35-45 min", distance: "22 mi" }
         ]
     },
     "New Orleans": {
@@ -62,9 +63,9 @@ const initialCityData: Record<string, CityData> = {
             "Louis Armstrong New Orleans International Airport (MSY)"
         ],
         routes: [
-            { destination: "French Quarter", time: "25-35 min", distance: "15 mi" },
-            { destination: "Garden District", time: "20-30 min", distance: "12 mi" },
-            { destination: "Metairie", time: "15-20 min", distance: "8 mi" }
+            { from: "MSY", destination: "French Quarter", time: "25-35 min", distance: "15 mi" },
+            { from: "MSY", destination: "Garden District", time: "20-30 min", distance: "12 mi" },
+            { from: "MSY", destination: "Metairie", time: "15-20 min", distance: "8 mi" }
         ]
     },
     "New York City": {
@@ -78,9 +79,9 @@ const initialCityData: Record<string, CityData> = {
             "Newark Liberty International Airport (EWR)"
         ],
         routes: [
-            { destination: "Manhattan to JFK", time: "45-70 min", distance: "15 mi" },
-            { destination: "Manhattan to Hamptons", time: "120-150 min", distance: "95 mi" },
-            { destination: "Brooklyn to Newark", time: "50-80 min", distance: "20 mi" }
+            { from: "JFK", destination: "Midtown Manhattan", time: "45-70 min", distance: "15 mi" },
+            { from: "LGA", destination: "Midtown Manhattan", time: "35-55 min", distance: "12 mi" },
+            { from: "EWR", destination: "Downtown Manhattan", time: "50-80 min", distance: "20 mi" }
         ]
     },
 
@@ -94,9 +95,9 @@ const initialCityData: Record<string, CityData> = {
             "Fort Lauderdale-Hollywood International (FLL)"
         ],
         routes: [
-            { destination: "South Beach", time: "20-30 min", distance: "12 mi" },
-            { destination: "Key West", time: "3.5-4 hours", distance: "160 mi" },
-            { destination: "Fort Lauderdale", time: "40-55 min", distance: "30 mi" }
+            { from: "MIA", destination: "South Beach", time: "20-30 min", distance: "12 mi" },
+            { from: "MIA", destination: "Key Biscayne", time: "30-40 min", distance: "12 mi" },
+            { from: "MIA", destination: "Fort Lauderdale", time: "40-55 min", distance: "30 mi" }
         ]
     },
     "Dallas": {
@@ -109,9 +110,9 @@ const initialCityData: Record<string, CityData> = {
             "Dallas Love Field (DAL)"
         ],
         routes: [
-            { destination: "Fort Worth", time: "35-45 min", distance: "32 mi" },
-            { destination: "Plano", time: "25-35 min", distance: "19 mi" },
-            { destination: "DFW to Downtown", time: "20-30 min", distance: "18 mi" }
+            { from: "DFW", destination: "Downtown Dallas", time: "20-30 min", distance: "18 mi" },
+            { from: "DAL", destination: "Downtown Dallas", time: "20-30 min", distance: "13 mi" },
+            { from: "DFW", destination: "Plano", time: "25-35 min", distance: "19 mi" }
         ]
     },
     "Las Vegas": {
@@ -123,9 +124,9 @@ const initialCityData: Record<string, CityData> = {
             "Harry Reid International Airport (LAS)"
         ],
         routes: [
-            { destination: "The Strip", time: "15-20 min", distance: "5 mi" },
-            { destination: "Downtown (Fremont)", time: "20-25 min", distance: "10 mi" },
-            { destination: "Henderson", time: "20-30 min", distance: "12 mi" }
+            { from: "LAS", destination: "The Strip", time: "15-20 min", distance: "5 mi" },
+            { from: "LAS", destination: "Downtown (Fremont)", time: "20-25 min", distance: "10 mi" },
+            { from: "LAS", destination: "Henderson", time: "20-30 min", distance: "12 mi" }
         ]
     },
     "Atlanta": {
@@ -137,9 +138,9 @@ const initialCityData: Record<string, CityData> = {
             "Hartsfield-Jackson Atlanta International Airport (ATL)"
         ],
         routes: [
-            { destination: "Buckhead", time: "30-45 min", distance: "18 mi" },
-            { destination: "Downtown Atlanta", time: "20-30 min", distance: "10 mi" },
-            { destination: "Alpharetta", time: "45-60 min", distance: "30 mi" }
+            { from: "ATL", destination: "Buckhead", time: "30-45 min", distance: "18 mi" },
+            { from: "ATL", destination: "Downtown Atlanta", time: "20-30 min", distance: "10 mi" },
+            { from: "ATL", destination: "Alpharetta", time: "45-60 min", distance: "30 mi" }
         ]
     },
     "San Francisco": {
@@ -152,9 +153,9 @@ const initialCityData: Record<string, CityData> = {
             "Oakland International Airport (OAK)"
         ],
         routes: [
-            { destination: "Financial District", time: "25-35 min", distance: "14 mi" },
-            { destination: "San Jose", time: "45-60 min", distance: "50 mi" },
-            { destination: "Palo Alto (Stanford)", time: "30-45 min", distance: "28 mi" }
+            { from: "SFO", destination: "Financial District", time: "25-35 min", distance: "14 mi" },
+            { from: "SFO", destination: "San Jose", time: "45-60 min", distance: "50 mi" },
+            { from: "SFO", destination: "Palo Alto (Stanford)", time: "30-45 min", distance: "28 mi" }
         ]
     }
 };
@@ -277,7 +278,7 @@ const CityGuide = () => {
                                             <tr key={index} className="border-b border-gray-100 last:border-0">
                                                 <td className="py-4 pr-4">
                                                     <div className="flex items-center gap-2">
-                                                        <span className="font-bold text-gray-800 text-[15px]">{activeCity.name}</span>
+                                                        <span className="font-bold text-gray-800 text-[15px]">{route.from}</span>
                                                         <ArrowRightLeft size={16} className="text-gold" />
                                                         <span className="font-bold text-gray-800 text-[15px]">{route.destination}</span>
                                                     </div>
