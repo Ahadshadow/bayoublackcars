@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     },
     authors: [{ name: "Bayou Black Cars Team" }],
     creator: "Bayou Black Cars",
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://bayoublackcars.com'),
+    metadataBase: new URL('https://bayoublackcars.com'),
     alternates: {
         canonical: '/',
     },
@@ -125,15 +125,27 @@ export const metadata: Metadata = {
     }
 };
 
+
+import Script from "next/script";
 import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en" className={`${taviraj.variable} ${poppins.variable}`}>
+            <head>
+                <Script
+                    src="https://www.googletagmanager.com/gtag/js?id=AW-18053496129"
+                    strategy="afterInteractive"
+                />
+                <Script id="gtag-init" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'AW-18053496129');
+                    `}
+                </Script>
+            </head>
             <body className="antialiased font-poppins">
                 <script
                     type="application/ld+json"
