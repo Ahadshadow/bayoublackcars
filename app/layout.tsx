@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     },
     authors: [{ name: "Bayou Black Cars Team" }],
     creator: "Bayou Black Cars",
-    metadataBase: new URL('https://bayoublackcars.com'),
+    metadataBase: new URL('https://www.bayoublackcars.com'),
     alternates: {
         canonical: '/',
     },
