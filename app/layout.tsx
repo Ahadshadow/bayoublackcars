@@ -18,7 +18,7 @@ const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Bayou Black Cars",
-    "url": "https://bayou-rental-car.vercel.app",
+    "url": "https://www.bayoublackcars.com",
     "logo": "https://bayoublackcars.com/logo.png",
     "contactPoint": {
         "@type": "ContactPoint",

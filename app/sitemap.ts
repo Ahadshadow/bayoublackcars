@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bayou-rental-car.vercel.app';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.bayoublackcars.com';
 
     const serviceRoutes = [
         'airport-limo-service', 'anniversary-limo-service', 'bachelor-party-limo-service',
