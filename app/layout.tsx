@@ -40,7 +40,7 @@ const localBusinessLd = {
     "name": "Bayou Black Cars",
     "image": "https://bayoublackcars.com/suv-dark.jpg",
     "telePhone": "+1-504-508-4831",
-    "url": "https://bayoublackcars.com",
+    "url": "https://www.bayoublackcars.com",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "Serving Nationwide",
@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     },
     authors: [{ name: "Bayou Black Cars Team" }],
     creator: "Bayou Black Cars",
-    metadataBase: new URL('https://bayoublackcars.com'),
+    metadataBase: new URL('https://www.bayoublackcars.com'),
     alternates: {
         canonical: '/',
     },
